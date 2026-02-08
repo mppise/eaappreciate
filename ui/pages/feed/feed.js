@@ -398,18 +398,15 @@ function showLinkedInPostModal(linkedInPost, accomplishment) {
                 <div class="linkedin-post-preview">
                     <textarea id="linkedInPostText" readonly>${linkedInPost}</textarea>
                 </div>
+                <div class="success-message" id="copy-success" style="display: none; color: green; margin-bottom: 15px;">
+                    ✅ Post copied to clipboard! Now click "Open LinkedIn" and paste it into a new post.
+                </div>
                 <div class="linkedin-modal-actions">
-                    <button class="btn-copy-post" onclick="copyLinkedInPost()">
-                        📋 Copy Post
-                    </button>
-                    <a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}&summary=${encodeURIComponent(linkedInPost)}" 
+                    <a href="https://www.linkedin.com/feed/" 
                        target="_blank" 
                        class="btn-share-linkedin">
-                        💼 Share on LinkedIn
+                        💼 Open LinkedIn
                     </a>
-                </div>
-                <div class="success-message" id="copy-success" style="display: none; color: green; margin-top: 10px;">
-                    ✅ Post copied to clipboard! You can now paste it on LinkedIn.
                 </div>
             </div>
         </div>
@@ -423,6 +420,11 @@ function showLinkedInPostModal(linkedInPost, accomplishment) {
             modal.remove();
         }
     });
+
+    // Auto-copy the post when modal opens for better UX
+    setTimeout(() => {
+        copyLinkedInPost();
+    }, 500);
 }
 
 function copyLinkedInPost() {
