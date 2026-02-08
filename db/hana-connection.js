@@ -35,8 +35,6 @@ class HanaConnection {
 
                         // Set autocommit to false to ensure manual commit control
                         this.connection.setAutoCommit(false);
-                        console.log('📝 Set autocommit to false for manual transaction control');
-
                         resolve();
                     }
                 });
