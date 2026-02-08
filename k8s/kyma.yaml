@@ -1,7 +1,8 @@
-apiVersion: gateway.kyma-project.io/v1beta1
+apiVersion: gateway.kyma-project.io/v2
 kind: APIRule
 # -----------------
 metadata:
+  namespace: default
   name: ea-appreciate-api
   labels:
     app.kubernetes.io/name: ea-appreciate-api
@@ -9,15 +10,22 @@ spec:
   service:
     name: ea-appreciate-svc
     port: 8100
-  host: ea-appreciate.c-5a930ed.kyma.ondemand.com
+  hosts: 
+    - ea-appreciate.c-5a930ed.kyma.ondemand.com
+  timeout: 900
+  corsPolicy:
+    exposeHeaders:
+      - Content-Type
+      - Transfer-Encoding
+      - Keep-Alive
+      - X-Frame-Options
   rules:
-    - path: /.*
+    - path: /*
       methods:
         - GET
         - POST
         - DELETE
         - PUT
         - OPTIONS
-      accessStrategies:
-        - handler: allow
-  gateway: kyma-gateway.kyma-system.svc.cluster.local
+      noAuth: true
+  gateway: kyma-system/kyma-gateway

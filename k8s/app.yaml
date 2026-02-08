@@ -17,7 +17,7 @@ spec:
       - name: dockerhub
       containers:
         - name: ea-appreciate
-          image: mppise/ea-appreciate:1.0.0
+          image: mppise/ea-appreciate:1.0.1
           ports:
             - containerPort: 8100
 

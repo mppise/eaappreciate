@@ -5,6 +5,8 @@ const path = require('path');
 const dbServer = require('./db/db-server');
 const aiOrchestrator = require('./ai/ai-orchestrator');
 
+console.log(process.env);
+
 const app = express();
 const PORT = process.env.PORT || 8100;
 
