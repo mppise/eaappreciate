@@ -15,7 +15,7 @@ END="\033[0m"
 PARENT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )
 export KUBECONFIG=${PARENT_PATH}/k8s/kubeconfig.yaml
 
-echo -e "${GREEN}[LOG]${CYAN} Starting EAAppreciate deployment to Kyma v$newversion${END}"
+echo -e "${GREEN}[LOG]${CYAN} Starting EAchieversClub deployment to Kyma v$newversion${END}"
 echo "============================================================"
 
 # Check if .env file exists
@@ -156,6 +156,6 @@ fi
 
 echo
 echo "============================================================"
-echo -e "${GREEN}🎉 EAAppreciate deployment completed successfully!${END}"
+echo -e "${GREEN}🎉 EAchieversClub deployment completed successfully!${END}"
 echo -e "${CYAN}Your application is now running on SAP BTP Kyma with database connectivity.${END}"
 echo "============================================================"
