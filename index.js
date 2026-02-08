@@ -201,6 +201,45 @@ app.post('/api/accomplishments/:id/vote', async (req, res) => {
     }
 });
 
+// Generate LinkedIn post for sharing (v4 feature)
+app.post('/api/accomplishments/:id/linkedin-post', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Get accomplishment details
+        const accomplishment = await dbServer.getAccomplishmentById(id);
+        if (!accomplishment) {
+            return res.status(404).json({ success: false, error: 'Accomplishment not found' });
+        }
+
+        // Use the existing generateWithPrompt method for LinkedIn post generation
+        // Include all available accomplishment data - leave nothing on the table
+        const linkedInPost = await aiOrchestrator.generateWithPrompt('linkedin-post-generation', {
+            accomplishment_statement: accomplishment.aiGeneratedStatement || accomplishment.statement || '',
+            impact_type: accomplishment.impactType || accomplishment.responses?.impactType || 'team',
+            contributor_name: accomplishment.userName || 'Team Member',
+            original_statement: accomplishment.originalStatement || '',
+            email_feedback: accomplishment.responses?.emailAppreciation || accomplishment.emailAppreciation || '',
+            additional_context: accomplishment.responses?.additionalDetails || accomplishment.additionalDetails || '',
+            congratulations_count: accomplishment.congratulationsCount || 0,
+            votes_count: accomplishment.votesCount || 0,
+            user_id: accomplishment.userId || '',
+            created_at: accomplishment.createdAt || ''
+        });
+
+        res.json({
+            success: true,
+            data: {
+                linkedInPost: linkedInPost,
+                accomplishment: accomplishment
+            }
+        });
+    } catch (error) {
+        console.error('Error generating LinkedIn post:', error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
 // Routes for serving pages
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'ui', 'pages', 'feed', 'feed.html'));

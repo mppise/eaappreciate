@@ -45,10 +45,10 @@ The application must be developed using nodejs for backend apis and HTML/CSS/JS 
 (v2) The design of the accomplishment card is the main attraction of this app. It must clearly show the contributor's name and their thumbnail picture followed by accomplishment (generated summary). Only cards in the /submit pages should allow viewing the details behind the entries. The top-right corner must show the type of impact this accomplishment caused. (v4) Whereas, bottom bar of the card contains various interactions for the team, such as:
 - Congratulations (clapping) : to congratulate the achiever. Show counter of congrats received.
 - Votes (stars) : to vote for top achievements. Show count of votes received.
-- Copy (copy) : so that the accomplishment can be copied and pasted in other forums.
+- Share (share) : so that the accomplishment can be shared via LinkedIn or in other forums. Help generate a LinkedIn post using the accomplishment details using AI. 
 (v2.1) Additional context is collected as 2 or 3 dynamically generated short questions that are relevant based on the initial accomplishment statement provided by the team member. 
 (v1) There can be sub-pages underneeth to help further navigation into details.
-(v1) Both the contributor and manager must be able to view lists, although contributor must only be able to view their list and manager should be able to view all submissions.
+(v1 - **deprecated**) Both the contributor and manager must be able to view lists, although contributor must only be able to view their list and manager should be able to view all submissions.
 
 ## Data
 (v1 - **deprecated**) Use browser data storage. Create a special DB module to handle this so that it can be replaced later with another database.
@@ -61,6 +61,7 @@ Create LLM prompts in separate files for each use case which will improve mainta
 We have following AI use cases in this app:
 - Generate accomplishment statement.
 - Generate contextual questions to capture accomplishment details.
+- Generate a LinkedIn post using the accomplishment details.
 
 ---
 
@@ -69,3 +70,4 @@ We have following AI use cases in this app:
 - SAP Kyma provides the runtime platform. Refer the Custom Resource Definition (CRD) yaml files under `/k8s` directory. NOTE: `/k8s/kubeconfig.yaml` is the configuration file for accessing Kyma on SAP BTP.
 - A deployment script `deploy.sh` runs as a shell script to automate deployment process. NOTE: versions in - package.json, deploy.sh ($newversion), and k8s/app.yaml - must all match.
 - A `setup-database.js` script is created for only one-time usage when HANA database must be initialized for usage. This sets up the table, constraints, and indexes based on the designed schema.
+NOTE: ALL DEPLOYMENTS MUST ONLY OCCUR MANUALLY!

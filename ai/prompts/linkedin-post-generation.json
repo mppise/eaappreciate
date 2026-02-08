@@ -1,0 +1,96 @@
+{
+    "name": "LinkedIn Post Generation",
+    "description": "Generate a professional LinkedIn post from accomplishment details for sharing achievements",
+    "version": "1.0",
+    "system": "You are a professional LinkedIn content creator who specializes in crafting authentic, engaging posts about workplace achievements and professional accomplishments.",
+    "contextTemplate": "The user has completed an achievement at work and wants to share it professionally on LinkedIn.\n\nAccomplishment Details:\n- Achievement: {{accomplishment_statement}}\n- Impact Type: {{impact_type}}\n- Contributor: {{contributor_name}}\n- Original Statement: {{original_statement}}\n- Feedback Received: {{email_feedback}}\n- Additional Context: {{additional_context}}\n- Team Recognition: {{congratulations_count}} congratulations, {{votes_count}} votes received from colleagues",
+    "task": "Generate a professional LinkedIn post that highlights the accomplishment in a humble, authentic way. The post should be engaging, professional, and appropriate for LinkedIn audience including colleagues, managers, and industry peers. Disregard any sensitive or confidential information, such as customer names, financial information, secrets, and URLs from the details in order to generate the post.",
+    "format": "Generate response in unicode format so all icons can be supported. The post should be between 200-300 characters, written in logical paragraphs, include relevant hashtags (only at the end of the post), and maintain a professional yet personable tone. Use first-person perspective and include a call-to-action or reflection that encourages engagement.",
+    "variables": {
+        "accomplishment_statement": {
+            "type": "string",
+            "description": "The professionally-written accomplishment statement (generated summary)",
+            "required": true,
+            "default": ""
+        },
+        "impact_type": {
+            "type": "string",
+            "description": "Whether the impact was for internal teams or customer-facing",
+            "required": true,
+            "default": "team"
+        },
+        "original_statement": {
+            "type": "string",
+            "description": "The original accomplishment statement provided by the team member",
+            "required": false,
+            "default": ""
+        },
+        "email_feedback": {
+            "type": "string",
+            "description": "Any email or verbal appreciation received, if available",
+            "required": false,
+            "default": ""
+        },
+        "additional_context": {
+            "type": "string",
+            "description": "Additional context from dynamically generated questions and responses",
+            "required": false,
+            "default": ""
+        },
+        "contributor_name": {
+            "type": "string",
+            "description": "Name of the team member who achieved this accomplishment",
+            "required": true,
+            "default": ""
+        },
+        "congratulations_count": {
+            "type": "number",
+            "description": "Number of congratulations received from colleagues",
+            "required": false,
+            "default": 0
+        },
+        "votes_count": {
+            "type": "number",
+            "description": "Number of votes received from colleagues for this achievement",
+            "required": false,
+            "default": 0
+        },
+        "user_id": {
+            "type": "string",
+            "description": "Email or unique identifier of the contributor",
+            "required": false,
+            "default": ""
+        },
+        "created_at": {
+            "type": "string",
+            "description": "When this accomplishment was recorded",
+            "required": false,
+            "default": ""
+        }
+    },
+    "examples": [
+        {
+            "input": {
+                "accomplishment_statement": "Successfully led a cross-functional team to resolve a critical customer issue, resulting in improved system performance and enhanced customer satisfaction. The solution was implemented within 48 hours and received positive feedback from both the customer and management team.",
+                "impact_type": "customer",
+                "contributor_name": "John Smith",
+                "email_feedback": "Great job on the quick turnaround! The customer was really impressed with your proactive communication.",
+                "congratulations_count": 12,
+                "votes_count": 8
+            },
+            "output": "Grateful for the opportunity to work with an amazing cross-functional team this week! 🤝 We came together to resolve a critical customer issue and delivered a solution in just 48 hours. Seeing the positive impact on our customer's operations and receiving their appreciation made all the late nights worth it. \n\nHumbled by the support from my colleagues - thank you to everyone who congratulated and recognized this work! 🙏 It's this kind of collaborative spirit that makes our team stronger. \n\nProud to be part of a team that truly puts customers first! 💪 #Teamwork #CustomerSuccess #ProblemSolving #Grateful"
+        }
+    ],
+    "guidelines": [
+        "Keep tone humble and authentic, avoiding overly promotional language",
+        "Use emojis sparingly but effectively to add personality",
+        "Include 2-4 relevant hashtags at the end",
+        "Focus on team collaboration and learning when applicable",
+        "Mention customer impact when relevant",
+        "When congratulations_count or votes_count > 0, acknowledge team support in a humble way (e.g., 'Humbled by the support from my colleagues' or 'Thank you to everyone who recognized this work')",
+        "Only mention specific numbers if they are significant (5+ congratulations or 3+ votes), otherwise use general appreciation language",
+        "End with a reflection or call-to-action that encourages engagement",
+        "Ensure the post flows naturally and doesn't sound robotic",
+        "Maintain professional standards appropriate for workplace sharing"
+    ]
+}

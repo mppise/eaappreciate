@@ -261,9 +261,9 @@ function createAccomplishmentCard(accomplishment) {
         <div class="accomplishment-text">${accomplishment.aiGeneratedStatement}</div>
       </div>
       <div class="interaction-bar">
-        <button class="copy-btn" onclick="copyAccomplishment('${accomplishment.id}')" title="Copy accomplishment text">
-          <span class="copy-icon">📋</span>
-          Copy
+        <button class="copy-btn" onclick="shareAccomplishment('${accomplishment.id}')" title="Generate LinkedIn post for sharing">
+          <span class="copy-icon">📢</span>
+          Share
         </button>
         <div class="interaction-buttons">
           <button class="interaction-btn congratulations" onclick="toggleCongratulations('${accomplishment.id}')" title="Congratulate">
@@ -361,37 +361,75 @@ function updateInteractionCount(accomplishmentId, interactionType, count, isActi
     }
 }
 
-async function copyAccomplishment(accomplishmentId) {
+async function shareAccomplishment(accomplishmentId) {
     try {
-        const accomplishment = allAccomplishments.find(a => a.id === accomplishmentId);
-        if (!accomplishment) return;
+        showToast('Generating LinkedIn post...', 'info');
 
-        // Create copy text
-        const copyText = `${accomplishment.aiGeneratedStatement}\n\nThis accomplishment has received ${accomplishment.congratulationsCount || 0} congratulations and ${accomplishment.votesCount || 0} votes on EA Appreciate!`;
+        const response = await fetch(`/api/accomplishments/${accomplishmentId}/linkedin-post`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
 
-        // Copy to clipboard
-        await navigator.clipboard.writeText(copyText);
+        const result = await response.json();
 
-        // Update button to show success
-        const card = document.querySelector(`[data-id="${accomplishmentId}"]`);
-        const copyButton = card.querySelector('.copy-btn');
-
-        const originalText = copyButton.textContent;
-        copyButton.textContent = 'Copied!';
-        copyButton.classList.add('copied');
-
-        // Reset after 2 seconds
-        setTimeout(() => {
-            copyButton.textContent = originalText;
-            copyButton.classList.remove('copied');
-        }, 2000);
-
-        showToast('Accomplishment copied to clipboard!', 'success');
-
+        if (result.success) {
+            showLinkedInPostModal(result.data.linkedInPost, result.data.accomplishment);
+        } else {
+            throw new Error(result.error || 'Failed to generate LinkedIn post');
+        }
     } catch (error) {
-        console.error('Error copying accomplishment:', error);
-        showToast('Failed to copy. Please try again.', 'error');
+        console.error('Error generating LinkedIn post:', error);
+        showToast('Failed to generate LinkedIn post', 'error');
     }
+}
+
+function showLinkedInPostModal(linkedInPost, accomplishment) {
+    const modal = document.createElement('div');
+    modal.className = 'linkedin-modal-overlay';
+    modal.innerHTML = `
+        <div class="linkedin-modal">
+            <div class="linkedin-modal-header">
+                <h3>Share on LinkedIn</h3>
+                <button class="linkedin-modal-close" onclick="this.closest('.linkedin-modal-overlay').remove()">&times;</button>
+            </div>
+            <div class="linkedin-modal-body">
+                <div class="linkedin-post-preview">
+                    <textarea id="linkedInPostText" readonly>${linkedInPost}</textarea>
+                </div>
+                <div class="linkedin-modal-actions">
+                    <button class="btn-copy-post" onclick="copyLinkedInPost()">
+                        📋 Copy Post
+                    </button>
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}&summary=${encodeURIComponent(linkedInPost)}" 
+                       target="_blank" 
+                       class="btn-share-linkedin">
+                        💼 Share on LinkedIn
+                    </a>
+                </div>
+                <div class="success-message" id="copy-success" style="display: none; color: green; margin-top: 10px;">
+                    ✅ Post copied to clipboard! You can now paste it on LinkedIn.
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Close modal when clicking outside
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+}
+
+function copyLinkedInPost() {
+    const textArea = document.querySelector('#linkedInPostText');
+    textArea.select();
+    navigator.clipboard.writeText(textArea.value);
+    document.querySelector('#copy-success').style.display = 'block';
 }
 
 function showToast(message, type = 'info') {
