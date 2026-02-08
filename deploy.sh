@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Version management
-oldversion="1.0.0"
-newversion="1.0.1"
+oldversion="1.0.1"
+newversion="1.0.2"
 
 
 # Color codes

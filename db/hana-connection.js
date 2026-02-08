@@ -15,6 +15,7 @@ class HanaConnection {
             encrypt: true,
             sslValidateCertificate: false
         };
+        console.log('HANA Connection parameters set', this.connectionParams);
     }
 
     // Connect to HANA database
