@@ -15,6 +15,7 @@ class HanaConnection {
             encrypt: true,
             sslValidateCertificate: false
         };
+        // -- DEBUG --
         console.log('HANA Connection parameters set', this.connectionParams);
     }
 
@@ -33,7 +34,6 @@ class HanaConnection {
                         reject(err);
                     } else {
                         console.log('✅ Connected to HANA database successfully');
-
                         // Set autocommit to false to ensure manual commit control
                         this.connection.setAutoCommit(false);
                         resolve();
@@ -50,6 +50,8 @@ class HanaConnection {
 
     // Execute SQL query
     async execute(sql, params = []) {
+        // -- DEBUG --
+        console.log('Executing HANA SQL:', sql, 'with params:', params);
         try {
             const conn = await this.connect();
 
