@@ -181,10 +181,7 @@ app.get('/submit', (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-    console.log(`EAAppreciate server running on http://localhost:${PORT}`);
-    console.log('Available routes:');
-    console.log('  / - Main feed with search and filters');
-    console.log('  /submit - Submit accomplishments');
+    console.log(`EAchieversClub server running on http://localhost:${PORT}`);
 });
 
 module.exports = app;
