@@ -67,7 +67,7 @@ class AIOrchestrator {
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": "Bearer " + auth.access_token,
-                    "AI-Resource-Group": process.env.AICORE_RESOURCE_GROUP || 'default'
+                    "AI-Resource-Group": 'default'
                 },
                 data: {
                     "messages": [
@@ -310,7 +310,7 @@ class AIOrchestrator {
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": "Bearer " + auth.access_token,
-                    "AI-Resource-Group": process.env.AICORE_RESOURCE_GROUP || 'default'
+                    "AI-Resource-Group": 'default'
                 },
                 data: {
                     "model": "text-embedding-3-small",

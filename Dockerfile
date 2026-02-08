@@ -1,13 +1,34 @@
-# FROM node:20.4.0-alpine
+# Use official Node.js runtime as base image
 FROM node:22
+
+# Create app directory
 WORKDIR /usr/app
-COPY . .
-ENV PORT=8100
-ENV AICORE_RESOURCE_GROUP="default"
-ENV VDB_H="fc29f922-622e-4bc9-b025-4a3174868bb9.hna2.prod-eu10.hanacloud.ondemand.com"
-ENV VDB_N="443"
-ENV VDB_U="DBADMIN"
-ENV VDB_P="LLMkm@123"
+
+# Create non-root user for security
+RUN groupadd -r nodejs && useradd -r -g nodejs nodejs
+
+# Copy package files first for better Docker layer caching
+COPY package*.json ./
+
+# Install dependencies
 RUN npm install
-EXPOSE 8080
+
+# Copy application code
+COPY . .
+
+# Change ownership to nodejs user
+RUN chown -R nodejs:nodejs /usr/app
+USER nodejs
+
+# Set default port (can be overridden by Kubernetes)
+ENV PORT=8100
+
+# Expose port
+EXPOSE 8100
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+    CMD node -e "require('http').get('http://localhost:8100/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) }).on('error', () => process.exit(1))"
+
+# Start the application
 CMD ["node", "index.js"]

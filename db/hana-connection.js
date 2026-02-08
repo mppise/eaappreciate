@@ -8,15 +8,37 @@ const hana = require('@sap/hana-client');
 class HanaConnection {
     constructor() {
         this.connection = null;
+
+        // Validate required environment variables
+        const requiredEnvVars = ['VDB_H', 'VDB_N', 'VDB_U', 'VDB_P'];
+        const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
+
+        if (missingEnvVars.length > 0) {
+            console.error('Missing required environment variables:', missingEnvVars);
+            throw new Error(`Missing required environment variables: ${missingEnvVars.join(', ')}`);
+        }
+
         this.connectionParams = {
             serverNode: `${process.env.VDB_H}:${process.env.VDB_N}`,
             uid: process.env.VDB_U,
             pwd: process.env.VDB_P,
             encrypt: true,
-            sslValidateCertificate: false
+            sslValidateCertificate: false,
+            connectTimeout: 30000,
+            idleTimeout: 900000
         };
+
+        // Add schema if provided
+        if (process.env.VDB_SCHEMA) {
+            this.connectionParams.currentSchema = process.env.VDB_SCHEMA;
+        }
+
         // -- DEBUG --
-        console.log('HANA Connection parameters set', this.connectionParams);
+        console.log('HANA Connection parameters set', {
+            serverNode: this.connectionParams.serverNode,
+            uid: this.connectionParams.uid,
+            currentSchema: this.connectionParams.currentSchema || 'default'
+        });
     }
 
     // Connect to HANA database
@@ -26,11 +48,28 @@ class HanaConnection {
                 return this.connection;
             }
 
+            console.log('Attempting to connect to HANA database...');
             this.connection = hana.createConnection();
+
+            // Set connection timeout
+            const connectTimeout = setTimeout(() => {
+                console.error('Database connection timeout after 30 seconds');
+                if (this.connection) {
+                    this.connection.disconnect();
+                }
+            }, 30000);
+
             await new Promise((resolve, reject) => {
                 this.connection.connect(this.connectionParams, (err) => {
+                    clearTimeout(connectTimeout);
+
                     if (err) {
                         console.error('HANA Connection Error:', err);
+                        console.error('Connection params used:', {
+                            serverNode: this.connectionParams.serverNode,
+                            uid: this.connectionParams.uid,
+                            currentSchema: this.connectionParams.currentSchema
+                        });
                         reject(err);
                     } else {
                         console.log('✅ Connected to HANA database successfully');
@@ -105,6 +144,18 @@ class HanaConnection {
     // Check if connected
     isConnected() {
         return this.connection && this.connection.state() === 'connected';
+    }
+
+    // Test connection function
+    async testConnection() {
+        try {
+            const conn = await this.connect();
+            console.log('Database connection test successful');
+            return true;
+        } catch (error) {
+            console.error('Database connection test failed:', error);
+            return false;
+        }
     }
 }
 

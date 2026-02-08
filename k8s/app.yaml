@@ -17,9 +17,56 @@ spec:
       - name: dockerhub
       containers:
         - name: ea-appreciate
-          image: mppise/ea-appreciate:1.0.3
+          image: mppise/ea-appreciate:1.0.4
           ports:
             - containerPort: 8100
+              name: http
+          env:
+          - name: NODE_ENV
+            value: "production"
+          - name: PORT
+            value: "8100"
+          - name: VDB_H
+            valueFrom:
+              secretKeyRef:
+                name: hana-credentials
+                key: host
+          - name: VDB_N
+            valueFrom:
+              secretKeyRef:
+                name: hana-credentials
+                key: port
+          - name: VDB_U
+            valueFrom:
+              secretKeyRef:
+                name: hana-credentials
+                key: user
+          - name: VDB_P
+            valueFrom:
+              secretKeyRef:
+                name: hana-credentials
+                key: password
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8100
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8100
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
 
 ---
 kind: Service

@@ -18,6 +18,37 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Serve static files from UI directory
 app.use(express.static('ui'));
 
+// Health check endpoint for Kubernetes probes
+app.get('/health', async (req, res) => {
+    try {
+        const dbStatus = await dbServer.getStatus();
+        if (dbStatus.connected && dbStatus.queryTest) {
+            res.status(200).json({
+                status: 'healthy',
+                database: 'connected',
+                timestamp: new Date().toISOString(),
+                environment: process.env.NODE_ENV || 'development'
+            });
+        } else {
+            res.status(503).json({
+                status: 'unhealthy',
+                database: 'disconnected',
+                error: dbStatus.error || 'Database connection failed',
+                timestamp: new Date().toISOString(),
+                environment: process.env.NODE_ENV || 'development'
+            });
+        }
+    } catch (error) {
+        console.error('Health check failed:', error);
+        res.status(503).json({
+            status: 'unhealthy',
+            error: error.message,
+            timestamp: new Date().toISOString(),
+            environment: process.env.NODE_ENV || 'development'
+        });
+    }
+});
+
 // API Routes
 
 // Get all accomplishments (for main feed)
