@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Version management - update this to match package.json
-oldversion="1.0.4"
-newversion="1.0.5"
+oldversion="1.0.5"
+newversion="1.0.6"
 
 # Color codes
 RED="\033[0;31m"

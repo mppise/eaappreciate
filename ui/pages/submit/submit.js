@@ -7,8 +7,14 @@ let userAccomplishments = [];
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', async () => {
+  console.log('Submit page initializing...');
+  console.log('Current user:', EAApp.currentUser);
+  console.log('Can submit:', EAApp.canSubmit());
+  console.log('Is demo user:', EAApp.isDemoUser());
+
   // Check if user has access to submit page
   if (!EAApp.canSubmit()) {
+    console.log('User cannot submit - showing access denied');
     // Show access denied message instead of loading the submit page
     const mainContent = document.querySelector('.page-layout');
     if (mainContent) {
@@ -17,7 +23,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     return; // Exit early, don't load submit functionality
   }
 
+  console.log('User can submit - loading page functionality');
   displayCurrentUser();
+  setupLogoutButton();
   await loadUserAccomplishments();
   setupFormHandler();
   setupWordCounters();
@@ -27,6 +35,13 @@ function displayCurrentUser() {
   const userElement = document.getElementById('current-user');
   const user = EAApp.currentUser;
   userElement.textContent = user.name;
+}
+
+function setupLogoutButton() {
+  const logoutBtn = document.getElementById('logout-btn');
+  if (logoutBtn && EAApp.isLoggedIn()) {
+    logoutBtn.style.display = 'inline-block';
+  }
 }
 
 function setupFormHandler() {
@@ -448,10 +463,13 @@ async function loadUserAccomplishments() {
 
   try {
     EAApp.showLoading(userAccomplishmentsElement);
+    console.log('Loading accomplishments for user:', EAApp.currentUser.email);
     const response = await EAApp.getUserAccomplishments(EAApp.currentUser.email);
+    console.log('User accomplishments response:', response);
 
     if (response.success) {
       userAccomplishments = response.data;
+      console.log('Found', userAccomplishments.length, 'user accomplishments');
       displayUserAccomplishments();
     } else {
       throw new Error('Failed to load accomplishments');

@@ -17,6 +17,7 @@ let currentDateFilter = '';
 // Initialize page
 document.addEventListener('DOMContentLoaded', async () => {
     displayCurrentUser();
+    setupLogoutButton();
     setupSearchHandlers();
     await loadAccomplishments();
 });
@@ -25,6 +26,13 @@ function displayCurrentUser() {
     const userElement = document.getElementById('current-user');
     const user = EAApp.currentUser;
     userElement.textContent = user.name;
+}
+
+function setupLogoutButton() {
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn && EAApp.isLoggedIn()) {
+        logoutBtn.style.display = 'inline-block';
+    }
 }
 
 function setupSearchHandlers() {
@@ -261,25 +269,73 @@ function createAccomplishmentCard(accomplishment) {
         <div class="accomplishment-text">${accomplishment.aiGeneratedStatement}</div>
       </div>
       <div class="interaction-bar">
-        <button class="copy-btn" onclick="shareAccomplishment('${accomplishment.id}')" title="Generate LinkedIn post for sharing">
-          <span class="copy-icon">📢</span>
-          Share
-        </button>
-        <div class="interaction-buttons">
-          <button class="interaction-btn congratulations" onclick="toggleCongratulations('${accomplishment.id}')" title="Congratulate">
-            <span class="interaction-icon">👏</span>
-            <span class="interaction-text">Congratulate</span>
-            <span class="interaction-count">&nbsp;(${congratsCount})</span>
-          </button>
-          <button class="interaction-btn votes" onclick="toggleVote('${accomplishment.id}')" title="Vote for this achievement">
-            <span class="interaction-icon">⭐</span>
-            <span class="interaction-text">Vote</span>
-            <span class="interaction-count">&nbsp;(${votesCount})</span>
-          </button>
-        </div>
+        ${createInteractionButtons(accomplishment, congratsCount, votesCount)}
       </div>
     </div>
   `;
+}
+
+function createInteractionButtons(accomplishment, congratsCount, votesCount) {
+    // Determine if this accomplishment belongs to the current user
+    const currentUserEmail = EAApp.currentUser?.email?.toLowerCase()?.trim();
+    const accomplishmentUserId = accomplishment.userId?.toLowerCase()?.trim();
+
+    // Also check by name as fallback for demo purposes
+    const currentUserName = EAApp.currentUser?.name?.toLowerCase()?.trim();
+    const accomplishmentUserName = accomplishment.userName?.toLowerCase()?.trim();
+
+    // Check by email first, then by name as fallback
+    const isMyAccomplishment = (currentUserEmail && accomplishmentUserId && (currentUserEmail === accomplishmentUserId)) ||
+        (currentUserName && accomplishmentUserName && (currentUserName === accomplishmentUserName));
+
+    // Debug logging to help troubleshoot
+    console.log('Debug ownership check:', {
+        currentUserEmail,
+        accomplishmentUserId,
+        currentUserName,
+        accomplishmentUserName: accomplishment.userName,
+        isMyAccomplishment,
+        accomplishmentId: accomplishment.id
+    });
+
+    let buttonsHtml = '';
+
+    // Share button - only show for own accomplishments
+    if (isMyAccomplishment) {
+        buttonsHtml += `
+            <button class="copy-btn" onclick="shareAccomplishment('${accomplishment.id}')" title="Generate LinkedIn post for sharing">
+              <span class="copy-icon">📢</span>
+              Share
+            </button>
+        `;
+    }
+
+    // Congratulate and Vote buttons - only show for others' accomplishments  
+    if (!isMyAccomplishment) {
+        buttonsHtml += `
+            <div class="interaction-buttons">
+              <button class="interaction-btn congratulations" onclick="toggleCongratulations('${accomplishment.id}')" title="Congratulate">
+                <span class="interaction-icon">👏</span>
+                <span class="interaction-text">Congratulate</span>
+                <span class="interaction-count">&nbsp;(${congratsCount})</span>
+              </button>
+              <button class="interaction-btn votes" onclick="toggleVote('${accomplishment.id}')" title="Vote for this achievement">
+                <span class="interaction-icon">⭐</span>
+                <span class="interaction-text">Vote</span>
+                <span class="interaction-count">&nbsp;(${votesCount})</span>
+              </button>
+            </div>
+        `;
+    }
+
+    // Fallback - if no buttons were added, something is wrong
+    if (!buttonsHtml.trim()) {
+        console.warn('No buttons generated for accomplishment:', accomplishment.id);
+        // Show a message instead of broken interface
+        buttonsHtml = '<div style="text-align: center; color: #666; padding: 10px;">No actions available</div>';
+    }
+
+    return buttonsHtml;
 }
 
 function loadMoreAccomplishments() {

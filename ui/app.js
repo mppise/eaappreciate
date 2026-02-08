@@ -80,6 +80,18 @@ class EAAppRouter {
         location.reload();
     }
 
+    // Logout function - clear user data and reload
+    logout() {
+        localStorage.removeItem('ea_current_user');
+        location.reload();
+    }
+
+    // Check if user is logged in
+    isLoggedIn() {
+        const user = localStorage.getItem('ea_current_user');
+        return user !== null;
+    }
+
     // API call wrapper
     async apiCall(endpoint, options = {}) {
         try {
