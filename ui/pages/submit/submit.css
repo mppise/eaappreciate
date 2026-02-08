@@ -1,0 +1,462 @@
+/**
+ * Submit Page Specific Styles
+ */
+
+.page-layout {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: var(--spacing-xl);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-header {
+    margin-bottom: var(--spacing-xl);
+}
+
+.section-header h1 {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-color);
+}
+
+.section-header h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-color);
+}
+
+.section-header p {
+    font-size: 16px;
+    color: var(--text-secondary);
+}
+
+.submit-section {
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow);
+}
+
+.accomplishment-form {
+    margin-bottom: var(--spacing-xl);
+}
+
+.form-hint {
+    display: block;
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: normal;
+    margin-top: var(--spacing-xs);
+}
+
+.form-textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.submission-result {
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.result-header {
+    background-color: var(--background-color);
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.result-header h3 {
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-color);
+}
+
+.result-content {
+    padding: var(--spacing-lg);
+}
+
+.generated-statement {
+    background-color: rgba(10, 102, 194, 0.05);
+    border-left: 4px solid var(--primary-color);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.result-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.history-section {
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow);
+    height: fit-content;
+    position: sticky;
+    top: calc(80px + var(--spacing-xl));
+}
+
+.user-accomplishments {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.accomplishment-summary {
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.accomplishment-summary:hover {
+    background-color: var(--background-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-sm);
+}
+
+.summary-date {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.summary-text {
+    font-size: 15px;
+    line-height: 1.4;
+    color: var(--text-color);
+    margin-bottom: var(--spacing-sm);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.summary-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.success-message {
+    background-color: rgba(5, 118, 66, 0.1);
+    border: 1px solid rgba(5, 118, 66, 0.2);
+    color: var(--success-color);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-lg);
+}
+
+.error-message {
+    background-color: rgba(204, 16, 22, 0.1);
+    border: 1px solid rgba(204, 16, 22, 0.2);
+    color: var(--error-color);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-lg);
+}
+
+@media (max-width: 1024px) {
+    .page-layout {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+
+    .history-section {
+        position: static;
+    }
+
+    .user-accomplishments {
+        max-height: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .result-actions {
+        flex-direction: column;
+    }
+
+    .submit-section,
+    .history-section {
+        padding: var(--spacing-lg);
+    }
+}
+
+/* Dynamic Form Styles */
+.form-step {
+    transition: opacity 0.3s ease-in-out;
+}
+
+.step-header {
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.step-header h3 {
+    margin: 0 0 10px 0;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.step-header p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+#contextual-questions-container .form-group {
+    margin-bottom: var(--spacing-lg);
+}
+
+#contextual-questions-container .form-textarea {
+    min-height: 80px;
+}
+
+/* Statement Preview Styles */
+.statement-preview {
+    margin: 1.5rem 0;
+}
+
+.statement-card {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.statement-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #f0f2f5;
+}
+
+.user-details h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.statement-content {
+    padding: 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-color);
+    background: var(--background-color);
+}
+
+/* Secondary Button Styling */
+.btn.btn-secondary {
+    background: #e4e6ea;
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+.btn.btn-secondary:hover {
+    background: #d8dadf;
+    border-color: #bcc0c4;
+}
+
+.btn.btn-secondary:disabled {
+    background: #f0f2f5;
+    color: #8a8d91;
+    border-color: var(--border-color);
+}
+
+/* User Accomplishment Card Styles */
+.user-accomplishment-card {
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: all 0.2s ease;
+    margin-bottom: var(--spacing-lg);
+}
+
+.user-accomplishment-card:hover {
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, .15), 0 4px 12px rgba(0, 0, 0, .25);
+}
+
+.user-accomplishment-card .card-header {
+    padding: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    background-color: var(--background-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.user-accomplishment-card .simplified-header {
+    justify-content: space-between;
+    padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.user-accomplishment-card .user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.user-accomplishment-card .user-details {
+    flex-grow: 1;
+}
+
+.user-accomplishment-card .user-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-color);
+}
+
+.user-accomplishment-card .user-email {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.user-accomplishment-card .timestamp {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.user-accomplishment-card .card-actions-header {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.user-accomplishment-card .btn-sm {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 14px;
+    border-radius: var(--border-radius);
+}
+
+.user-accomplishment-card .card-content {
+    padding: var(--spacing-lg);
+}
+
+.user-accomplishment-card .accomplishment-text {
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text-color);
+    margin-bottom: var(--spacing-md);
+}
+
+.user-accomplishment-card .card-metadata {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.user-accomplishment-card .original-statement {
+    background-color: var(--background-color);
+    border-left: 4px solid var(--border-color);
+    padding: var(--spacing-md);
+    margin-top: var(--spacing-md);
+    font-size: 14px;
+    color: var(--text-secondary);
+    display: none;
+}
+
+.user-accomplishment-card .original-statement.show {
+    display: block;
+}
+
+.user-accomplishment-card .original-statement-label {
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+    display: block;
+}
+
+.user-accomplishment-card .appreciation-section {
+    background-color: rgba(10, 102, 194, 0.05);
+    border-left: 4px solid var(--primary-color);
+    padding: var(--spacing-md);
+    margin-top: var(--spacing-md);
+    display: none;
+}
+
+.user-accomplishment-card .appreciation-section.show {
+    display: block;
+}
+
+.user-accomplishment-card .appreciation-label {
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+    color: var(--primary-color);
+}
+
+/* Word Counter Styles */
+.word-counter {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: var(--spacing-xs);
+}
+
+.word-count {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.word-count.warning {
+    color: #e67e22;
+}
+
+.word-count.error {
+    color: var(--error-color);
+    font-weight: 600;
+}
+
+.form-textarea.over-limit {
+    border-color: var(--error-color);
+    box-shadow: 0 0 0 1px var(--error-color);
+}
+
+/* Add margin above the "What did you accomplish?" label */
+#basic-fields .form-group:nth-child(2) {
+    margin-top: calc(var(--spacing-xl) * 2);
+}

@@ -1,0 +1,46 @@
+{
+    "id": "contextual-questions-generation",
+    "name": "Contextual Questions Generation",
+    "description": "Generates 2-3 contextual questions to gather more details about an accomplishment",
+    "system": "You are a skilled interviewer who helps extract meaningful details about workplace accomplishments. Your role is to generate thoughtful, relevant questions that will help gather context and depth about someone's achievement, enabling a more comprehensive and impactful accomplishment statement.",
+    "contextTemplate": "Original Accomplishment Statement: {{originalStatement}}\nImpact Type: {{impactType}}\nEmail Appreciation: {{emailAppreciation}}",
+    "task": "Generate up to 3 contextual questions that will help gather more details about this accomplishment. The questions should:\n1. Be specific to the accomplishment mentioned\n2. Help quantify impact where possible\n3. Uncover challenges overcome or skills demonstrated\n4. Identify stakeholders who benefited\n5. Reveal measurable outcomes or results\n6. Be conversational and easy to understand\n7. Avoid yes/no questions - ask for elaboration\n8. Focus on details that would make the accomplishment statement more compelling\n9. Framed in a short and clear manner and written so that objective information can be easily extracted for statement generation.",
+    "format": "Return no more than 3 questions as a JSON array of strings. Each question should be complete and end with a question mark. Do not include any other text, formatting, or explanations - only the JSON array.",
+    "variables": {
+        "originalStatement": {
+            "type": "string",
+            "required": true,
+            "description": "The original accomplishment statement from the employee"
+        },
+        "impactType": {
+            "type": "string",
+            "required": false,
+            "default": "Not specified",
+            "description": "Type of impact: customer or team"
+        },
+        "emailAppreciation": {
+            "type": "string",
+            "required": false,
+            "default": "None provided",
+            "description": "Email appreciation received for this accomplishment"
+        }
+    },
+    "examples": [
+        {
+            "input": {
+                "originalStatement": "I helped resolve a customer's database issue",
+                "impactType": "customer",
+                "emailAppreciation": "Thanks for the quick fix!"
+            },
+            "output": "[\"What specific database issue was the customer experiencing?\", \"How long did it take you to identify and resolve the problem?\", \"What technical steps or tools did you use to fix the issue?\", \"How did this resolution impact the customer's business operations?\", \"Were there any challenges or obstacles you had to overcome during the troubleshooting process?\"]"
+        },
+        {
+            "input": {
+                "originalStatement": "I mentored a new team member on our project",
+                "impactType": "team",
+                "emailAppreciation": ""
+            },
+            "output": "[\"What specific skills or knowledge areas did you focus on during the mentoring?\", \"How long did the mentoring process take and how often did you meet?\", \"What was the new team member struggling with initially?\", \"What measurable improvements did you observe in their performance?\", \"How has this mentoring impacted the overall team productivity or project success?\"]"
+        }
+    ]
+}

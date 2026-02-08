@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Accomplishment - EAchieversClub</title>
+    <link rel="stylesheet" href="/css/shared.css">
+    <link rel="stylesheet" href="/pages/submit/submit.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo">EAchieversClub</a>
+                <div class="nav-section">
+                    <nav class="nav">
+                        <a href="/" class="nav-link">Feed</a>
+                        <a href="/submit" class="nav-link active">Submit</a>
+                    </nav>
+                    <div class="user-info">
+                        <span id="current-user">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="page-layout">
+                <!-- Submission Form -->
+                <div class="submit-section">
+                    <div class="section-header">
+                        <h1>Share Your Accomplishment</h1>
+                        <p>Tell us about something great you did. We'll help make it shine!</p>
+                    </div>
+
+                    <form id="accomplishment-form" class="accomplishment-form">
+                        <!-- Step 1: Basic Information -->
+                        <div id="basic-fields" class="form-step">
+                            <div class="form-group">
+                                <label class="form-label" for="impact-type">
+                                    Impact Type *
+                                    <span class="form-hint">Was this more impactful for your team or for
+                                        customers?</span>
+                                </label>
+                                <select id="impact-type" class="form-select" required>
+                                    <option value="">Select impact type</option>
+                                    <option value="team">Team Impact</option>
+                                    <option value="customer">Customer Impact</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="original-statement">
+                                    What did you accomplish? *
+                                    <span class="form-hint">Start simple: "Today I helped..." or "I completed..." (max
+                                        60 words)</span>
+                                </label>
+                                <textarea id="original-statement" class="form-textarea" required maxlength="360"
+                                    placeholder="Today I helped my customer by..."></textarea>
+                                <div class="word-counter">
+                                    <span id="original-statement-counter" class="word-count">0/60 words</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="email-appreciation">
+                                    Email appreciation received
+                                    <span class="form-hint">Copy/paste any appreciation email excerpts you received (max
+                                        60 words)</span>
+                                </label>
+                                <textarea id="email-appreciation" class="form-textarea" maxlength="360"
+                                    placeholder="Paste email excerpt here (optional)"></textarea>
+                                <div class="word-counter">
+                                    <span id="email-appreciation-counter" class="word-count">0/60 words</span>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="button" id="generate-questions-btn" class="btn btn-primary">
+                                    Next >
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Dynamic Contextual Questions -->
+                        <div id="dynamic-fields" class="form-step" style="display: none;">
+                            <div class="step-header">
+                                <h3>Help us understand your accomplishment better</h3>
+                                <p>Answer these contextual questions to create a more comprehensive achievement
+                                    statement:</p>
+                            </div>
+
+                            <div id="contextual-questions-container">
+                                <!-- Dynamic questions will be inserted here -->
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="button" id="generate-statement-btn" class="btn btn-primary">
+                                    Generate Professional Statement
+                                </button>
+                                <button type="button" class="btn" onclick="goBackToBasicFields()">
+                                    Back to Edit Basic Info
+                                </button>
+                                <button type="button" class="btn" onclick="clearForm()">
+                                    Start Over
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Preview and Approval -->
+                        <div id="preview-fields" class="form-step" style="display: none;">
+                            <div class="step-header">
+                                <h3>Review Your Professional Accomplishment Statement</h3>
+                                <p>Please review the generated statement. You can approve it or request a new version:
+                                </p>
+                            </div>
+
+                            <div id="statement-preview" class="statement-preview">
+                                <!-- Generated statement will be displayed here -->
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">
+                                    ✅ Approve & Save
+                                </button>
+                                <button type="button" id="regenerate-btn" class="btn btn-secondary">
+                                    🔄 Generate New Version
+                                </button>
+                                <button type="button" class="btn" onclick="goBackToDynamicFields()">
+                                    Back to Edit Answers
+                                </button>
+                                <button type="button" class="btn" onclick="clearForm()">
+                                    Start Over
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div id="submission-result" class="submission-result" style="display: none;"></div>
+                </div>
+
+                <!-- User's Past Submissions -->
+                <div class="history-section">
+                    <div class="section-header">
+                        <h2>Your Accomplishments</h2>
+                        <p>Track your submitted achievements</p>
+                    </div>
+
+                    <div id="user-accomplishments" class="user-accomplishments">
+                        <div class="loading">Loading your accomplishments...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/app.js"></script>
+    <script src="/pages/submit/submit.js"></script>
+</body>
+
+</html>

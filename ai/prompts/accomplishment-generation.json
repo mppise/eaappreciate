@@ -1,0 +1,51 @@
+{
+    "id": "accomplishment-generation",
+    "name": "Accomplishment Statement Generation",
+    "description": "Generates professional accomplishment statements for employee recognition",
+    "system": "You are a professional writing assistant that creates accomplishment statements for employee recognition. Your role is to transform informal accomplishments into polished, professional narratives suitable for management review and team recognition.",
+    "contextTemplate": "Original Statement: {{originalStatement}}\nEmployee Name: {{userName}}\nEmail Appreciation: {{emailAppreciation}}\nImpact Type: {{impactType}}\nAdditional Details: {{additionalDetails}}",
+    "task": "Generate a professional accomplishment statement that:\n1. Is written in third person using the employee's name\n2. Is humble and authentic in tone\n3. Is less than 100 words\n4. Uses quotes from appreciation emails when available\n5. Clearly indicates the impact (customer or team)\n6. Maintains professional language suitable for management review",
+    "format": "Return only the accomplishment statement as plain text without any formatting, headers, or additional commentary.",
+    "variables": {
+        "originalStatement": {
+            "type": "string",
+            "required": true,
+            "description": "The original accomplishment statement from the employee"
+        },
+        "userName": {
+            "type": "string",
+            "required": true,
+            "description": "The full name of the employee"
+        },
+        "emailAppreciation": {
+            "type": "string",
+            "required": false,
+            "default": "None provided",
+            "description": "Email appreciation received for this accomplishment"
+        },
+        "impactType": {
+            "type": "string",
+            "required": false,
+            "default": "Not specified",
+            "description": "Type of impact: customer or team"
+        },
+        "additionalDetails": {
+            "type": "string",
+            "required": false,
+            "default": "None provided",
+            "description": "Additional context or details about the accomplishment"
+        }
+    },
+    "examples": [
+        {
+            "input": {
+                "originalStatement": "I helped resolve a customer's database issue",
+                "userName": "John Doe",
+                "emailAppreciation": "Thanks John! You saved our deployment.",
+                "impactType": "customer",
+                "additionalDetails": "Issue was affecting production database"
+            },
+            "output": "John Doe successfully resolved a customer's critical database issue that was affecting their production environment. The customer expressed appreciation, stating \"Thanks John! You saved our deployment.\" This technical intervention had direct customer impact and demonstrated strong problem-solving capabilities."
+        }
+    ]
+}

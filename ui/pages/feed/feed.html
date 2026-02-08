@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EAchieversClub - Team Accomplishments</title>
+    <link rel="stylesheet" href="/css/shared.css">
+    <link rel="stylesheet" href="/pages/feed/feed.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo">EAchieversClub</a>
+                <div class="nav-section">
+                    <nav class="nav">
+                        <a href="/" class="nav-link active">Feed</a>
+                        <a href="/submit" class="nav-link">Submit</a>
+                    </nav>
+                    <div class="user-info">
+                        <span id="current-user">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+
+            <div class="search-controls-inline">
+                <div class="search-input-group">
+                    <input type="text" id="search-input" class="search-input" placeholder="Search accomplishments...">
+                    <button id="clear-search" class="clear-search" style="display: none;"
+                        title="Clear search">×</button>
+                </div>
+
+                <select id="impact-filter" class="filter-select">
+                    <option value="">All Impact Types</option>
+                    <option value="team">Team Impact</option>
+                    <option value="customer">Customer Impact</option>
+                </select>
+
+                <select id="date-range" class="filter-select">
+                    <option value="">All Time</option>
+                    <option value="today">Today</option>
+                    <option value="week">This Week</option>
+                    <option value="month">This Month</option>
+                    <option value="quarter">This Quarter</option>
+                </select>
+
+            </div>
+
+            <div id="accomplishments-feed" class="feed">
+                <div class="loading">Loading accomplishments...</div>
+            </div>
+
+            <div id="load-more" class="load-more" style="display: none;">
+                <button class="btn" onclick="loadMoreAccomplishments()">Load More</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="/app.js"></script>
+    <script src="/pages/feed/feed.js"></script>
+</body>
+
+</html>

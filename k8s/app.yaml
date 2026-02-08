@@ -1,0 +1,38 @@
+kind: Deployment
+apiVersion: apps/v1
+# ----------------------
+metadata:
+  name: ea-appreciate
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ea-appreciate
+  template:
+    metadata:
+      labels:
+        app: ea-appreciate
+    spec:
+      imagePullSecrets:
+      - name: dockerhub
+      containers:
+        - name: ea-appreciate
+          image: mppise/ea-appreciate:1.0.0
+          ports:
+            - containerPort: 8100
+
+---
+kind: Service
+apiVersion: v1
+# -------------------
+metadata:
+  name: ea-appreciate-svc
+spec:
+  selector:
+    app: ea-appreciate
+  ports:
+    - protocol: TCP
+      port: 8100
+      targetPort: 8100
+
+---

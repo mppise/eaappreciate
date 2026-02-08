@@ -1,0 +1,23 @@
+apiVersion: gateway.kyma-project.io/v1beta1
+kind: APIRule
+# -----------------
+metadata:
+  name: ea-appreciate-api
+  labels:
+    app.kubernetes.io/name: ea-appreciate-api
+spec:
+  service:
+    name: ea-appreciate-svc
+    port: 8100
+  host: ea-appreciate.c-5a930ed.kyma.ondemand.com
+  rules:
+    - path: /.*
+      methods:
+        - GET
+        - POST
+        - DELETE
+        - PUT
+        - OPTIONS
+      accessStrategies:
+        - handler: allow
+  gateway: kyma-gateway.kyma-system.svc.cluster.local

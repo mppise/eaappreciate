@@ -1,0 +1,25 @@
+{
+  "name": "ea-appreciate",
+  "version": "1.0.0",
+  "description": "Employee Appreciation Application - LinkedIn Style",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --env-file=.env index.js"
+  },
+  "dependencies": {
+    "@sap/hana-client": "^2.27.23",
+    "axios": "^1.13.4",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.22.1"
+  },
+  "keywords": [
+    "employee",
+    "appreciation",
+    "achievements",
+    "nodejs"
+  ],
+  "author": "EAAppreciate Team",
+  "license": "MIT"
+}
