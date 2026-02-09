@@ -300,19 +300,33 @@ function createInteractionButtons(accomplishment, congratsCount, votesCount) {
 
     let buttonsHtml = '';
 
-    // Share button - only show for own accomplishments
     if (isMyAccomplishment) {
-        buttonsHtml += `
+        // For own accomplishments: Share (visible + enabled), Congratulate + Vote (visible + disabled)
+        buttonsHtml = `
             <button class="copy-btn" onclick="shareAccomplishment('${accomplishment.id}')" title="Generate LinkedIn post for sharing">
               <span class="copy-icon">📢</span>
               Share
             </button>
+            <div class="interaction-buttons">
+              <button class="interaction-btn congratulations disabled" disabled title="Cannot congratulate your own accomplishment">
+                <span class="interaction-icon">👏</span>
+                <span class="interaction-text">Congratulate</span>
+                <span class="interaction-count">&nbsp;(${congratsCount})</span>
+              </button>
+              <button class="interaction-btn votes disabled" disabled title="Cannot vote for your own accomplishment">
+                <span class="interaction-icon">⭐</span>
+                <span class="interaction-text">Vote</span>
+                <span class="interaction-count">&nbsp;(${votesCount})</span>
+              </button>
+            </div>
         `;
-    }
-
-    // Congratulate and Vote buttons - only show for others' accomplishments  
-    if (!isMyAccomplishment) {
-        buttonsHtml += `
+    } else {
+        // For others' accomplishments: Share (hidden), Congratulate + Vote (visible + enabled)
+        buttonsHtml = `
+            <button class="copy-btn hidden" style="display: none;" disabled title="Cannot share others' accomplishments">
+              <span class="copy-icon">📢</span>
+              Share
+            </button>
             <div class="interaction-buttons">
               <button class="interaction-btn congratulations" onclick="toggleCongratulations('${accomplishment.id}')" title="Congratulate">
                 <span class="interaction-icon">👏</span>
@@ -326,13 +340,6 @@ function createInteractionButtons(accomplishment, congratsCount, votesCount) {
               </button>
             </div>
         `;
-    }
-
-    // Fallback - if no buttons were added, something is wrong
-    if (!buttonsHtml.trim()) {
-        console.warn('No buttons generated for accomplishment:', accomplishment.id);
-        // Show a message instead of broken interface
-        buttonsHtml = '<div style="text-align: center; color: #666; padding: 10px;">No actions available</div>';
     }
 
     return buttonsHtml;

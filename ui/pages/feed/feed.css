@@ -249,6 +249,17 @@
     color: #ef4444;
 }
 
+.interaction-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.interaction-btn.disabled:hover {
+    background-color: transparent;
+    color: var(--text-secondary);
+}
+
 .interaction-icon {
     font-size: 16px;
 }
