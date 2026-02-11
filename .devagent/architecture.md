@@ -87,7 +87,7 @@ We have following AI use cases in this app:
 
 # Deployment Tooling
 - The application must be packaged as a docker container (`Dockerfile`).
-- SAP Kyma provides the runtime platform. Refer the Custom Resource Definition (CRD) yaml files under `/k8s` directory. NOTE: `/k8s/kubeconfig.yaml` is the configuration file for accessing Kyma on SAP BTP.
+- SAP Kyma provides the runtime platform. Refer the Custom Resource Definition (CRD) yaml files under `/k8s` directory. NOTE: `/k8s/kubeconfig.yaml` is the configuration file for accessing Kyma on SAP BTP. CRD's defining the Deployments, Services, Secrets, APIRules, etc. must be placed in this directory.
 - A deployment script `deploy.sh` runs as a shell script to automate deployment process. NOTE: versions in - package.json, deploy.sh ($newversion), and k8s/app.yaml - must all match. The deployment script also required to perform cleanup of containers and builds of the previous release ($oldversion).
-- A `setup-database.js` script (only one-time usage) helps setup HANA database with required data structures based on a well-defind schema.
-NOTE: ALL DEPLOYMENTS MUST ONLY OCCUR MANUALLY!
+- A `setup-database.js` script (only one-time usage) helps setup HANA database with required data structures based on a well-defind schema. 
+NOTE: ACTUAL DEPLOYMENT MUST ONLY BE KICKED-OFF MANUALLY!
