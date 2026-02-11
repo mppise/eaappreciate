@@ -33,13 +33,13 @@ The application must be developed using nodejs for backend apis and HTML/CSS/JS 
 - / : contains NodeJS server (index.js).
 - /ui : contains app router (app.js) and all HTML/CSS/JS files. Separate each file type in proper page structure. For example, create a folder for each page and within it create .html, .css, and .js files.
 - /ai : contains an AI orchestrator module so that LLM models can be switched appropriately. More details on LLM are provided in the `AI` section below.
-- /db : contains the db-server module. Test data can also be stored in this directory.
+- /db : contains the db-server module. DB Connection details are provided in the `Data` section below.
 
 ## Technologies
 Use Model-View-Controller (MVC) architecture using following technologies:
 - Model: SAP HANA
 - View: AngularJS framework
-- Controller: NodeJS
+- Controller: NodeJS, ExpressJS
 
 ## UX 
 (v1 - **deprecated**) In addition to a root homepage, there must be two additional entry points as below:
@@ -72,12 +72,48 @@ Use following color palette to design the UX.
 
 ## Data
 (v1 - **deprecated**) Use browser data storage. Create a special DB module to handle this so that it can be replaced later with another database.
-(v3) Use hana-client to rewrite the db-server so that all CRUD operations can be supported. 
+(v3) Use hana-client to rewrite the db-server so that all CRUD operations can be supported; details provided below:
+```json
+{
+    "host": "fc29f922-622e-4bc9-b025-4a3174868bb9.hna2.prod-eu10.hanacloud.ondemand.com",
+    "port": 443,
+    "dbuser": "DBADMIN",
+    "dbpassword": "LLMkm@123"
+}
+```
 (v2.1) Data structures (schema) to store accomplishments consists of team member details, the original accomplishment statement, type of impact (whether to internal teams or to the customer), any email or verbal statements, and additional context, which could be made up of concatenated dynamically generated questions and provided responses.
 (v4) We do not need to store details of users who interact with any accomplishment card. However an incremental counter is essential to be recorded against each accomplishment.
 
 ## AI
-Create LLM prompts in separate files for each use case which will improve maintainability of the prompts. A good LLM prompt contains SYSTEM, CONTEXT, TASK, FORMAT (must generate response in plain text without any formatting).
+Create LLM prompts in separate files (__JSON format__) for each use case which will improve maintainability of the prompts. A good LLM prompt contains SYSTEM, CONTEXT, TASK, FORMAT. The result from an LLM MUST always be expected in JSON format and so each prompt must specify the expected JSON structure within formatting section of the instructions. The controller-side of the application calling AI orchestrator must be aware of the expected structure from LLM responses.
+
+### Example prompt
+```json
+{
+    "system": "You are a math wizard.",
+    "context": "1, 2, 3, 4, 5, 6, 7, 8, 9",
+    "task": "All add the numbers provided to you in the context",
+    "format": "Respond using JSON structure below:
+    { \"answer\": \"/* sum of numbers */\", \"rationale\": \"/* briefly describe how you arrived at that answer and how you verified that your answer is correct */\" }"
+}
+```
+
+The AI orchetrator:
+- serves as a framework to simplify calling GenAI sevices and providing interoperability with different prompts which allows scalability to add new AI features, and maintain LLM prompts without having to get into the code using them.
+- should work specifically with the GenAI platform on SAP AI Core instance; details provided below:
+```json
+{
+    "clientid": "sb-e8daeef5-9eee-453d-beac-b91addeda4a4!b128922|aicore!b540",
+    "clientsecret": "26e84a5c-b3c9-4e5e-b8b7-4d33c2448f58$5RTry-G7wX8eflWeWe0L-cwcE6WNdFG8bqUiOOQDZmY=",
+    "url": "https://sap-ai-factory-wvx47zgy.authentication.eu10.hana.ondemand.com",
+    "identityzone": "sap-ai-factory-wvx47zgy",
+    "identityzoneid": "33b7216c-cbfa-454e-b5f6-4c13cbfa0b82",
+    "appname": "e8daeef5-9eee-453d-beac-b91addeda4a4!b128922|aicore!b540",
+    "serviceurls": {
+        "AI_API_URL": "https://api.ai.prod.eu-central-1.aws.ml.hana.ondemand.com"
+    }
+}
+```
 We have following AI use cases in this app:
 - Generate accomplishment statement.
 - Generate contextual questions to capture accomplishment details.
