@@ -35,6 +35,12 @@ The application must be developed using nodejs for backend apis and HTML/CSS/JS 
 - /ai : contains an AI orchestrator module so that LLM models can be switched appropriately. More details on LLM are provided in the `AI` section below.
 - /db : contains the db-server module. Test data can also be stored in this directory.
 
+## Technologies
+Use Model-View-Controller (MVC) architecture using following technologies:
+- Model: SAP HANA
+- View: AngularJS framework
+- Controller: NodeJS
+
 ## UX 
 (v1 - **deprecated**) In addition to a root homepage, there must be two additional entry points as below:
 - / 
