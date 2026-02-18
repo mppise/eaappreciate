@@ -21,9 +21,9 @@ async function setupDatabase() {
         console.log('🔧 Setting up database schema...');
         await hanaSchema.initializeSchema();
 
-        // // Insert sample data
-        // console.log('🌱 Adding sample data...');
-        // await hanaSchema.insertSampleData();
+        // Insert sample data
+        console.log('🌱 Adding sample data...');
+        await hanaSchema.insertSampleData();
 
         console.log('✅ Database setup completed successfully!');
         console.log('');
